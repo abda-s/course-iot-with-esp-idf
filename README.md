@@ -1,6 +1,8 @@
-Welcome to the repository for the [IoT Firmware Development with ESP32 and ESP-IDF course](https://learnembedded.dev/courses/iot-firmware-development-with-esp32-and-esp-idf/)! You can find all of the examples used in the course in the *workspace/* folder. See below to learn how to build the container used to compile the examples.
+This repository is a personal clone/fork of the [IoT Firmware Development with ESP32 and ESP-IDF course](https://learnembedded.dev/courses/iot-firmware-development-with-esp32-and-esp-idf/) material created by [Shawn Hymel](https://github.com/ShawnHymel). I have uploaded it here for my own learning and development purposes.
 
-[![IoT Firmware Development with ESP32 and ESP-IDF course](images/thumbnail-esp32-iot.png)](https://learnembedded.dev/courses/iot-firmware-development-with-esp32-and-esp-idf/)
+Original Repository: [github.com/ShawnHymel/course-iot-with-esp-idf](https://github.com/ShawnHymel/course-iot-with-esp-idf)
+
+You can find all of the examples used in the course in the *workspace/* folder. See below to learn how to build the container used to compile the examples.
 
 ## Development Environment
 
@@ -46,6 +48,25 @@ python -m venv venv
 venv\Scripts\activate
 python -m pip install pyserial==3.5 esptool==4.8.1
 ```
+
+
+### Quick Start (Docker Compose)
+
+The easiest way to get started is using Docker Compose. This effectively replaces the manual `docker build` and `docker run` steps below.
+
+1.  **Start the environment:**
+    ```sh
+    docker-compose up -d
+    ```
+    This builds the image and starts the container in the background.
+
+2.  **Connect to the container:**
+    *   **VS Code Dev Containers:** Use the "Dev Containers: Attach to Running Container..." command and select the `esp-idf` container.
+    *   **SSH:** Connect to `root@localhost:22001` with password `espidf`.
+
+> **Note:** The browser-based code-server (localhost:8800) is **disabled** in this Docker Compose configuration to support local VS Code usage.
+
+### Manual Build (Alternative)
 
 From this directory, build the image (this will take some time). Note that we pass in the computer's hostname so it can be added as a Subject Alternative Name (SAN) in the OpenSSL configuration. This allows TLS connections to use mDNS to connect to the host and verify the Common Name (or SAN) using `<MY_HOSTNAME>.local` in addition to `localhost`.
 

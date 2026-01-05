@@ -1,0 +1,39 @@
+services:
+  esp-idf:
+    build:
+      context: .
+      dockerfile: Dockerfile.esp-idf
+      args:
+        HOSTNAME: ${HOSTNAME:-localhost}
+    image: env-esp-idf
+    ports:
+      - "1883:1883"
+      - "8080:8080"
+      - "8081:8081"
+      - "8883:8883"
+      - "22001:22"
+      # - "8800:8800" # Disabled code-server
+    volumes:
+      - ./workspace:/workspace
+    working_dir: /workspace
+    stdin_open: true
+    tty: true
+    entrypoint:
+      - /bin/bash
+      - -c
+      - |
+        source /root/.bashrc
+        source /etc/environment
+        mkdir -p /workspace/.vscode
+        cp /c_cpp_properties.json /workspace/.vscode/c_cpp_properties.json
+        /usr/sbin/sshd
+        /usr/sbin/mosquitto -c /etc/mosquitto/mosquitto.conf -d
+        sleep infinity
+
+  ca-gen:
+    build:
+      context: .
+      dockerfile: Dockerfile.ca-gen
+    volumes:
+      - ./scripts/esp-idf:/output
+    profiles: [ "tools" ]
