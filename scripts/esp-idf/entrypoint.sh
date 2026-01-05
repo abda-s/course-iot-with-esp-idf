@@ -25,5 +25,5 @@ cp /c_cpp_properties.json /workspace/.vscode/c_cpp_properties.json
 # Run Mosquitto server
 /usr/sbin/mosquitto -c /etc/mosquitto/mosquitto.conf -d
 
-# Start the code-server
-exec code-server --auth none --bind-addr 0.0.0.0:${VS_CODE_SERVER_PORT} /esp-idf.code-workspace
+# Keep container alive
+exec sleep infinity

@@ -18,17 +18,6 @@ services:
     working_dir: /workspace
     stdin_open: true
     tty: true
-    entrypoint:
-      - /bin/bash
-      - -c
-      - |
-        source /root/.bashrc
-        source /etc/environment
-        mkdir -p /workspace/.vscode
-        cp /c_cpp_properties.json /workspace/.vscode/c_cpp_properties.json
-        /usr/sbin/sshd
-        /usr/sbin/mosquitto -c /etc/mosquitto/mosquitto.conf -d
-        sleep infinity
 
   ca-gen:
     build:

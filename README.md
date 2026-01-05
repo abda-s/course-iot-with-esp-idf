@@ -12,9 +12,9 @@ This is a development environment for the *IoT Firmware Development with ESP32 U
 
 You have a few options for using this development environment:
 
- 1. (Default) The container runs *code-server* so that you can connect to `localhost:8800` via a browser to get a pre-made VS Code instance
- 2. Run the image. In your local VS Code, install the [Dev Containers extension](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers) or [Remote - SSH extension](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-ssh). Connect to the running container. Select *File > Open Workspace from File...* and select the */zephyr.code-workspace* file when prompted.
- 3. Edit files locally (e.g. with VS Code) and log into the container via SSH to build and run the emulator.
+ 1. Run the image. In your local VS Code, install the [Dev Containers extension](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers) or [Remote - SSH extension](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-ssh). Connect to the running container. Select *File > Open Workspace from File...* and select the */zephyr.code-workspace* file when prompted.
+ 2. Edit files locally (e.g. with VS Code) and log into the container via SSH to build and run the emulator.
+
     * Username: `root`
     * Password: `espidf`
 
@@ -64,7 +64,6 @@ The easiest way to get started is using Docker Compose. This effectively replace
     *   **VS Code Dev Containers:** Use the "Dev Containers: Attach to Running Container..." command and select the `esp-idf` container.
     *   **SSH:** Connect to `root@localhost:22001` with password `espidf`.
 
-> **Note:** The browser-based code-server (localhost:8800) is **disabled** in this Docker Compose configuration to support local VS Code usage.
 
 ### Manual Build (Alternative)
 
@@ -76,27 +75,24 @@ docker build -t env-esp-idf -f Dockerfile.esp-idf --build-arg HOSTNAME=$(hostnam
 
 You can ignore the warning about setting the password as an `ARG` in the Dockerfile. The container is fairly unsecure anyway; I only recommend running it locally when you need it. You will need to change the password and configure *code-server* and *sshd* to be more secure if you want to use it remotely.
 
-Run the image in *VS Code Server* mode. Note that it mounts the local *workspace/* directory into the container! We also expose ports 3333 (OpenOCD), 2223 (mapped from 22 within the container for SSH), and 8800 (*code-server*).
+Run the image in interactive mode. Note that it mounts the local *workspace/* directory into the container! We also expose ports 3333 (OpenOCD) and 2223 (mapped from 22 within the container for SSH).
 
 Linux, macOS, Windows (PowerShell):
 
 ```sh
-docker run --rm -it -p 1883:1883 -p 8080:8080 -p 8081:8081 -p 8800:8800 -p 8883:8883 -p 22001:22 -v "$(pwd)/workspace:/workspace" -w /workspace env-esp-idf
+```sh
+docker run --rm -it -p 1883:1883 -p 8080:8080 -p 8081:8081 -p 8883:8883 -p 22001:22 -v "$(pwd)/workspace:/workspace" -w /workspace env-esp-idf
+```
 ```
 
 > **IMPORTANT**: The *entrypoint.sh* script will copy *c_cpp_properties.json* to your *workspace/.vscode* directory every time you run the image. This file helps *IntelliSense* know where to find things. Don't mess with this file!
 
-Alternatively, you can run the image in interactive mode by adding the `--entrypoint /bin/bash` argument. This will allow you to skip running the VS Code server in the background.
+Alternatively, you can run the image in interactive mode.
 
 ### Connect to Container
 
-With the Docker image built, you have a few options to connect to the development environment: browser, Dev Containers, SSH. Choose one of the options below.
+#### Option 1: VS Code Dev Containers
 
-#### Option 1: Connect via Browser
-
-Open a browser and navigate to http://localhost:8800/.
-
-#### Option 2: VS Code Dev Containers
 
 Dev Containers is a wonderful extension for letting you connect your local VS Code to a Docker container. Feel free to read the [official documentation](https://code.visualstudio.com/docs/devcontainers/containers) to learn more.
 
@@ -106,7 +102,8 @@ Open the command palette (Ctrl+Shift+P) and search for **Dev Containers: Attach 
 
 Go to **File > Open Workspace from File..** and select the **/esp-idf.code-workspace** file when prompted. Enter the password again if requested. This should configure your VS Code workspace with the */workspace* directory mapped from the host directory alongside the required toolchain directories (e.g. */opt/toolchains/esp-idf*).
 
-#### Option 3: VS Code SSH
+#### Option 2: VS Code SSH
+
 
 If you want to develop ESP-IDF applications using your local instance of VS Code, you can connect to the running container using SSH. This will allow you to use your custom themes, extensions, settings, etc.
 
