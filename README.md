@@ -80,7 +80,6 @@ Run the image in interactive mode. Note that it mounts the local *workspace/* di
 Linux, macOS, Windows (PowerShell):
 
 ```sh
-```sh
 docker run --rm -it -p 1883:1883 -p 8080:8080 -p 8081:8081 -p 8883:8883 -p 22001:22 -v "$(pwd)/workspace:/workspace" -w /workspace env-esp-idf
 ```
 
