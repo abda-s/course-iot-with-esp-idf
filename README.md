@@ -83,7 +83,6 @@ Linux, macOS, Windows (PowerShell):
 ```sh
 docker run --rm -it -p 1883:1883 -p 8080:8080 -p 8081:8081 -p 8883:8883 -p 22001:22 -v "$(pwd)/workspace:/workspace" -w /workspace env-esp-idf
 ```
-```
 
 > **IMPORTANT**: The *entrypoint.sh* script will copy *c_cpp_properties.json* to your *workspace/.vscode* directory every time you run the image. This file helps *IntelliSense* know where to find things. Don't mess with this file!
 
